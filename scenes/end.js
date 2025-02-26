@@ -48,7 +48,7 @@ export class EndScene extends Phaser.Scene {
         });
 
         this.botaoRestart.on("pointerdown", () => {
-            this.scene.start("GameScene")
+            this.scene.start("MainScene")
         })
 
         if (this.resultado === "ganhou"){
