@@ -32,6 +32,17 @@ export class GameScene extends Phaser.Scene {
         for (let i = 0; i < this.plataformas.length; i++){
             this.physics.add.collider(this.player, this.plataformas[i]);
         }
+
+        // quarta parte
+        this.botaoJogar = this.add.image(this.larguraJogo/2, 290, "play").setScale(0.2).setInteractive();
+
+        var resultado = "ganhou";
+
+        this.botaoJogar.on("pointerdown", () => {
+            this.scene.start("EndScene", {resultado: resultado});
+        })
+
+        // quarta parte
     }
 
     update() {

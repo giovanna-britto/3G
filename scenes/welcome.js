@@ -23,6 +23,14 @@ export class WelcomeScene extends Phaser.Scene {
         this.add.image(this.larguraJogo/2, 350, "descricao").setScale(0.4);
         this.botaoJogar = this.add.image(this.larguraJogo/2, 290, "play").setScale(0.2).setInteractive();
 
+        this.botaoJogar.on("pointerover", () => {
+            this.input.setDefaultCursor("pointer");
+        });
+        
+        this.botaoJogar.on("pointerout", () => {
+            this.input.setDefaultCursor("default");
+        });
+
         this.botaoJogar.on("pointerdown", () => {
             this.scene.start("MainScene")
         })
