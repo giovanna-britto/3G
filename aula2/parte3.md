@@ -1,1 +1,0 @@
-# Animações e Efeitos Visuais
