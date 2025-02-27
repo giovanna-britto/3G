@@ -21,6 +21,7 @@ export class GameScene extends Phaser.Scene {
         this.player.body.setSize(151, 195, true);
         this.player.setCollideWorldBounds(true);
 
+
         this.plataformas[0] = this.physics.add.staticImage(200, 450, 'plataforma');
         this.plataformas[0].body.setSize(148, 44, true);
         this.plataformas[0].setScale(0.3);
@@ -32,20 +33,35 @@ export class GameScene extends Phaser.Scene {
         for (let i = 0; i < this.plataformas.length; i++){
             this.physics.add.collider(this.player, this.plataformas[i]);
         }
+        
+        // Adiciona as setas do teclado
+        this.cursors = this.input.keyboard.createCursorKeys();
 
         // quarta parte
         this.botaoJogar = this.add.image(this.larguraJogo/2, 290, "play").setScale(0.2).setInteractive();
-
         var resultado = "ganhou";
-
         this.botaoJogar.on("pointerdown", () => {
             this.scene.start("EndScene", {resultado: resultado});
         })
-
         // quarta parte
     }
 
-    update() {
+    update() { // Adiciona a movimentação 
+        if (this.cursors.left.isDown) { // Movimentação horizontal
+            this.player.setVelocityX(-160);
+        } else if (this.cursors.right.isDown) {
+            this.player.setVelocityX(160);
+        } else {
+            this.player.setVelocityX(0);
+        }
 
+        // Lógica de pulo (vertical) 
+        if (this.cursors.up.isDown) { // && (this.player.body.touching.down || this.player.body.blocked.down)
+            this.player.setVelocityY(-400);
+        }
+
+        if (this.cursors.down.isDown) {
+            this.player.setVelocityY(400); // Acelera a descida 
+        }
     }
 }
