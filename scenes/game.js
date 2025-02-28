@@ -78,14 +78,14 @@ export class GameScene extends Phaser.Scene {
         // Animações da personagem
         this.anims.create({
             key: 'direita',
-            frames: this.anims.generateFrameNumbers('grace_sprite', { start: 0, end: 3 }),
+            frames: this.anims.generateFrameNumbers('grace_sprite', { start: 5, end: 8 }),
             frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'esquerda',
-            frames: this.anims.generateFrameNumbers('grace_sprite', { start: 5, end: 8 }),
+            frames: this.anims.generateFrameNumbers('grace_sprite', { start: 0, end: 3 }),
             frameRate: 10,
             repeat: -1
         });
