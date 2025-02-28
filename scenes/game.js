@@ -4,8 +4,6 @@ export class GameScene extends Phaser.Scene {
     larguraJogo = 800;
     plataformas = [];
 
-    pontuacao = 0;
-
     constructor() {
         super("MainScene");
     }
@@ -15,9 +13,19 @@ export class GameScene extends Phaser.Scene {
         this.load.image("plataforma", "../assets/plataforma.png");
         this.load.spritesheet("grace_sprite", "../assets/spritesheetGrace.png", { frameWidth: 64, frameHeight: 64 })
         this.load.image("bug", "../assets/bug.png");
+        this.load.audio("musicaFundo", "../assets/musica.mp3");
     }
 
     create() {
+
+        this.pontuacao = 0;
+
+        this.musica = this.sound.add("musicaFundo");
+        this.musica.play({
+            loop: true,  
+            volume: 0.05 
+        });
+
         this.add.image(this.larguraJogo/2, this.alturaJogo/2, "paisagem").setScale(0.6);
 
         this.player = this.physics.add.sprite(this.larguraJogo/2, 100, 'grace_sprite').setScale(1.3);

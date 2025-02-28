@@ -48,7 +48,8 @@ export class EndScene extends Phaser.Scene {
         });
 
         this.botaoRestart.on("pointerdown", () => {
-            this.scene.start("MainScene")
+            this.scene.stop("EndScene");
+            this.scene.start("MainScene");
         })
 
         if (this.resultado === "ganhou"){
