@@ -39,14 +39,6 @@ export class GameScene extends Phaser.Scene {
         // Adiciona as setas do teclado
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        // quarta parte
-        this.botaoJogar = this.add.image(this.larguraJogo/2, 290, "play").setScale(0.2).setInteractive();
-        var resultado = "ganhou";
-        this.botaoJogar.on("pointerdown", () => {
-            this.scene.start("EndScene", {resultado: resultado});
-        })
-        // quarta parte
-
         // adicionando placar 
         this.placar = this.add.text(50, 50, 'Pontuacao:' + this.pontuacao, {fontSize:'45px', fill:'#495613'});
 
