@@ -4,6 +4,8 @@ export class GameScene extends Phaser.Scene {
     larguraJogo = 800;
     plataformas = [];
 
+    pontuacao = 0;
+
     constructor() {
         super("MainScene");
     }
@@ -12,6 +14,7 @@ export class GameScene extends Phaser.Scene {
         this.load.image("paisagem", "../assets/paisagem.png");
         this.load.image("plataforma", "../assets/plataforma.png");
         this.load.spritesheet("grace_sprite", "../assets/spritesheetGrace.png", { frameWidth: 64, frameHeight: 64 })
+        this.load.image("bug", "../assets/bug.png");
     }
 
     create() {
@@ -37,9 +40,10 @@ export class GameScene extends Phaser.Scene {
         this.botaoJogar = this.add.image(this.larguraJogo / 2, 290, "play").setScale(0.2).setInteractive();
         var resultado = "ganhou";
         this.botaoJogar.on("pointerdown", () => {
-            this.scene.start("EndScene", { resultado: resultado });
-        });
-
+            this.scene.start("EndScene", {resultado: resultado});
+        })
+        // quarta parte
+      
         // Animações da personagem
         this.anims.create({
             key: 'direita',
@@ -60,6 +64,35 @@ export class GameScene extends Phaser.Scene {
             frames: [{ key: 'grace_sprite', frame: 4 }],
             frameRate: 20
         });
+        this.player.anims.play('parada');
+
+        // adicionando placar 
+        this.placar = this.add.text(50, 50, 'Pontuacao:' + this.pontuacao, {fontSize:'45px', fill:'#495613'});
+
+        // add o bug / mariposa
+        this.bug = this.physics.add.sprite(this.larguraJogo/3, 0, 'bug');
+        this.bug.setCollideWorldBounds(true); // "borda no mundo"
+        this.bug.setScale(0.3);
+        this.physics.add.collider(this.bug, this.plataformas[0]); // faz com que o bug n consiga se sobrepor a plataforma
+        this.physics.add.collider(this.bug, this.plataformas[1]);
+
+        // quando o player encostar no bug
+        this.physics.add.overlap(this.player, this.bug, () => { 
+
+            this.bug.setVisible(false); //o bug fica invisível
+
+            //número sorteado entre 50 e 650
+            var posicaoBug_Y = Phaser.Math.RND.between(50, 650);
+            //ajusta a posição do bug de acordo com o número sorteado
+            this.bug.setPosition(posicaoBug_Y, 100); 
+
+            this.pontuacao += 1; //soma pontuação
+            this.placar.setText('Pontuacao: ' + this.pontuacao); //atualiza o placar
+
+            this.bug.setVisible(true); // torna o bug visível
+
+        });
+
     }
 
     update() {
@@ -91,6 +124,12 @@ export class GameScene extends Phaser.Scene {
 
         if (this.cursors.down.isDown) {
             this.player.setVelocityY(400); // Acelera a descida
+        }
+
+        // logica ganhar
+        if (this.pontuacao >= 5){
+            this.scene.stop('MainScene');
+            this.scene.start('EndScene', "ganhou");
         }
     }
 }
